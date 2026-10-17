@@ -86,12 +86,12 @@ for (const number of numbers){
 
 for (const op of operations){
     op.addEventListener("click", (e) => {
-        decimalPressed = false;
+
         if(firstNumber !== undefined && secondNumber === undefined){
 
             if(operation !== undefined){
                 operation = op.textContent;
-                display.textContent = firstNumber + op.textContent;
+                display.textContent = firstNumber + " " + op.textContent + " ";
                 console.log(op.textContent);
                 return;
             }
@@ -105,7 +105,7 @@ for (const op of operations){
             }
 
             operation = op.textContent;
-            display.textContent += op.textContent;
+            display.textContent += " " + op.textContent + " ";
             console.log(op.textContent);
             return;
         }
@@ -124,7 +124,7 @@ for (const op of operations){
                 display.textContent = ans;
             }
 
-            else display.textContent = ans + operation;
+            else display.textContent = ans + " " + operation + " ";
             firstNumber = ans;
             secondNumber = undefined;  
         }
