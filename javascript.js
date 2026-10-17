@@ -196,6 +196,5 @@ back.addEventListener("click", (e) => {
         if(secondNumber === "") secondNumber = undefined;
     } else operation = undefined;
 
-
     display.textContent = (firstNumber ?? "") + (operation ?? "") + (secondNumber ?? "") || "|";
 });
