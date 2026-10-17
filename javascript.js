@@ -2,8 +2,6 @@ let firstNumber = undefined;
 let secondNumber = undefined;
 let operation = undefined;
 let resultCalculated = false;
-let decimalPressed = false;
-
 
 
 function add(a, b){
@@ -27,9 +25,9 @@ function divide(a, b){
 function operate(operator, a, ...b){
     let result;
     switch(operator){
-        case("+"): result = add((Number(a)), Number(b[0]));
-        case("-"): result =  subtract(Number(a), Number(b[0]));
-        case("*"): result =  multiply(Number(a), Number(b[0]));
+        case("+"): result = add((Number(a)), Number(b[0])); break;
+        case("-"): result =  subtract(Number(a), Number(b[0])); break;
+        case("*"): result =  multiply(Number(a), Number(b[0])); break;
         case("/"): result = divide(Number(a), Number(b[0]));
     }
 
@@ -42,6 +40,7 @@ const equal = document.querySelector("#equal");
 const operations = document.querySelectorAll(".operation");
 const display = document.querySelector(".display");
 const dot = document.querySelector("#dot");
+const back = document.querySelector("#back");
 
 for (const number of numbers){
     number.addEventListener("click", (e) => {
@@ -87,6 +86,7 @@ for (const number of numbers){
 
 for (const op of operations){
     op.addEventListener("click", (e) => {
+        decimalPressed = false;
         if(firstNumber !== undefined && secondNumber === undefined){
 
             if(operation !== undefined){
@@ -126,13 +126,9 @@ for (const op of operations){
 
             else display.textContent = ans + operation;
             firstNumber = ans;
-            secondNumber = undefined;
-
-            
-            
+            secondNumber = undefined;  
         }
-    }
-    );
+    });
 }
 
 equal.addEventListener("click", (e) => { 
@@ -148,17 +144,58 @@ equal.addEventListener("click", (e) => {
     secondNumber = undefined;
     operation = undefined;
     resultCalculated = true;
-    }
-);
+});
 
 clear.addEventListener("click", (e) => {
     display.textContent = "|";
     firstNumber = undefined;
     secondNumber = undefined;
-    operation = undefined
+    operation = undefined;
 });
 
 dot.addEventListener("click", (e) => {
-    
-})
+    if(firstNumber === undefined || resultCalculated){
+        firstNumber = "0.";
+        display.textContent = "0.";
+        resultCalculated = false;
+    }
 
+    if(operation === undefined) {
+        if(!String(firstNumber).includes(".")){
+            firstNumber += ".";
+            display.textContent += ".";
+        }
+    }
+
+    if(operation !== undefined) {
+        if(secondNumber === undefined){
+            secondNumber = "0.";
+            display.textContent += "0.";
+        }
+
+       if(!String(secondNumber).includes(".")){
+            secondNumber += ".";
+            display.textContent += ".";
+        }
+
+    }
+
+
+});
+
+back.addEventListener("click", (e) => {
+    if(resultCalculated) return;
+    if(firstNumber === undefined) return;
+
+    if(operation === undefined) {
+        firstNumber = String(firstNumber).slice(0, -1);
+        if(firstNumber === "") firstNumber = undefined;
+    } else 
+    if(secondNumber !== undefined) {
+        secondNumber = String(secondNumber).slice(0, -1);
+        if(secondNumber === "") secondNumber = undefined;
+    } else operation = undefined;
+
+
+    display.textContent = (firstNumber ?? "") + (operation ?? "") + (secondNumber ?? "") || "|";
+});
